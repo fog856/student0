@@ -16,7 +16,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 word_count provides lists of words and associated count
 
-Functional methods take the head of a list as first arg.
+Functional methods take the wclist[0] of a list as first arg.
 Mutators take a reference to a list as first arg.
 */
 
@@ -41,11 +41,39 @@ size_t len_words(WordCount *wchead) {
 WordCount *find_word(WordCount *wchead, char *word) {
   /* Return count for word, if it exists */
   WordCount *wc = NULL;
+  int freq = 0;
+  while(wchead != NULL){
+    if(wchead->word == word){
+      wc = wchead;
+    }
+    wchead = wchead->next;
+  }
   return wc;
 }
-
 void add_word(WordCount **wclist, char *word) {
   /* If word is present in word_counts list, increment the count, otw insert with count 1. */
+  printf("%s", word);
+  printf("\n");
+  WordCount *headcopy = wclist[0];
+  WordCount *temp;
+  temp = malloc(sizeof(WordCount));
+  temp->count = 1;
+  temp->next = NULL;
+  temp->word = word;
+  if(wclist[0] == NULL){
+     wclist[0] = temp;
+    return;
+  }
+  while(headcopy != NULL){
+    if(strcmp(word, headcopy->word) == 0){
+      headcopy->count++;
+      return; 
+    }
+    if(headcopy->next == NULL)
+      break;
+    headcopy = headcopy->next;
+  }
+  headcopy->next = temp;
 }
 
 void fprint_words(WordCount *wchead, FILE *ofile) {
