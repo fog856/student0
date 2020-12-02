@@ -1,0 +1,71 @@
+a. Run GDB on themapexecutable.
+b. Set a breakpoint at the beginning of the program’s execution.
+c. Run the program until the breakpoint.
+d.What memory address doesargvstore?
+0x7fffffffe4c8
+e.Describe what’s located at that memory address. (What doesargvpoint to?)
+Data type: char **, hence points to array of char pointers
+f. Step until you reach the first call torecur.
+g.What is the memory address of therecurfunction?
+0x5555555546cd
+h. Step into the first call to recur.
+i. Step until you reach theifstatement.
+j. Switch into assembly view.
+k. Step over instructions until you reach thecallqinstruction.
+l.What values are in all the registers?
+rax            0x2      2
+rbx            0x0      0
+rcx            0x0      0
+rdx            0x0      0
+rsi            0x555555756340   93824994337600
+rdi            0x2      2
+rbp            0x7fffffffe3a0   0x7fffffffe3a0
+rsp            0x7fffffffe380   0x7fffffffe380
+r8             0x0      0
+r9             0x7ffff7b502e0   140737349223136
+r10            0x555555756010   93824994336784
+r11            0x246    582
+r12            0x555555554580   93824992232832
+r13            0x7fffffffe4c0   140737488348352
+r14            0x0      0
+r15            0x0      0
+rip            0x555555554702   0x555555554702 <recur+53>
+eflags         0x202    [ IF ]
+cs             0x33     51
+ss             0x2b     43
+ds             0x0      0
+es             0x0      0
+fs             0x0      0
+gs             0x0      0
+
+m. Step into thecallqinstruction.
+n. Switch back to C code mode.
+o. Now print out the current call stack. (Hint: what does thebacktracecommand do?)
+#0  0x0000555555554702 in recur (i=3) at recurse.c:9
+#1  0x00005555555546c6 in main (argc=1, argv=0x7fffffffe4c8) at map.c:22
+p. Now set a breakpoint on therecurfunction which is only triggered when the argument is0.
+q. Continue until the breakpoint is hit.
+r. Print the call stack now.
+#0  recur (i=0) at recurse.c:5
+#1  0x0000555555554707 in recur (i=1) at recurse.c:9
+#2  0x0000555555554707 in recur (i=2) at recurse.c:9
+#3  0x0000555555554707 in recur (i=3) at recurse.c:9
+#4  0x00005555555546c6 in main (argc=1, argv=0x7fffffffe4c8) at map.c:22
+
+
+s. Now go up the call stack until you reachmain. What wasargc?
+Argc = 1
+t. Now step until thereturnstatement inrecur.
+u. Switch back into the assembly view.
+v.Which instructions correspond to the return 0in C?
+
+
+0x555555554709 <recur+60>               mov    $0x0,%eaxsive function */                        │
+b+ │0x55555555470e <recur+65>               leaveq                                                  │
+   │0x55555555470f <recur+66>               retq    
+
+w. Now switch back to the source layout.
+x. Finish the remaining 3 function calls.
+y. Run the program to completion.
+z. Quit GDB
+
